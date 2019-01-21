@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>aiDemo</title>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/vue.min.js"></script>
+    <!-- import stylesheet -->
+    <link href="css/iview.css" rel="stylesheet"/>
+    <!-- import iView -->
+    <script src="js/iview.min.js"></script>
+</head>
+
+<body>
+<div id="app" style="text-align: center" @keyup.enter="getMsg">
+    <h1 style="margin-top: 100px;margin-bottom: 20px;">Ai人工智能</h1>
+    <i-input v-model="msg" placeholder="请输入..." style="width: 300px" @keyup.enter="getMsg"></i-input>
+    <i-button @click="getMsg">提交</i-button>
+</div>
+</body>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            msg: ''
+        },
+        methods: {
+            getMsg() {
+                var m = this;
+                $.post("getMsg", {'massage': m.msg},
+                    function (data, status) {
+                        if (data.code = 200) {
+                            m.$Message.success(data.data);
+                            m.msg = "";
+                        } else {
+                            m.$Message.success('请求失败');
+                        }
+                    }, 'json');
+            }
+        }
+    })
+</script>
+
+</html>
